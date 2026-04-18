@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user profile in the application.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID." },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "A reflective journal entry with AI-generated reflection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "prompt": { "type": "string" },
+        "reflection": { "type": "string" },
+        "moodId": { "type": "string" }
+      },
+      "required": ["id", "userId", "date", "prompt", "reflection"]
+    },
+    "MoodAssessment": {
+      "title": "MoodAssessment",
+      "description": "A daily mood check-in assessment.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "energyLevel": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "stressLevel": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "pleasantness": { "type": "string", "enum": ["Unpleasant", "Neutral", "Pleasant"] },
+        "sleepQuality": { "type": "string", "enum": ["Poor", "Fair", "Good"] },
+        "focusLevel": { "type": "string", "enum": ["Scattered", "Normal", "Laser"] },
+        "moodId": { "type": "string" },
+        "ritualId": { "type": "string" }
+      },
+      "required": ["id", "userId", "date", "energyLevel", "stressLevel", "pleasantness", "moodId", "ritualId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles."
+    },
+    "/users/{userId}/journalEntries/{entryId}": {
+      "schema": { "$ref": "#/entities/JournalEntry" },
+      "description": "Journal entries for a specific user."
+    },
+    "/users/{userId}/moodAssessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/MoodAssessment" },
+      "description": "Mood assessments for a specific user."
+    }
+  }
+}
